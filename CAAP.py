@@ -5,6 +5,8 @@ from process_pdf import *
 from openai import OpenAI
 import os
 import time
+import sys
+import re
 
 client = OpenAI(api_key=os.environ["OPENAI"])
 
@@ -12,10 +14,51 @@ global k
 k=5
 
 stopwords={line.strip().lower() for line in open('stopwords.txt')}
-not_stopword=lambda w:not(w.lower() in stopwords or w in punctuation)
+stopword=lambda w:w.lower() in stopwords or w in punctuation
 
 def make_txts():
-    return [process_pdf('./pdfs/'+pdf) for pdf in os.listdir('./pdfs')]
+    txts=[]
+    w,t=0,0
+    for pdf in find_pdfs('./pdfs'):
+        t+=1
+        try: 
+            txts.append(process_pdf(pdf))
+            print('Succeeded on',pdf)
+            w+=1
+        except KeyboardInterrupt: break
+        except: 
+            print('Failed on',pdf)
+            if os.path.exists('cropped_image.pdf'): os.remove('cropped_image.pdf')
+            if os.path.exists('PDF_image.png'): os.remove('PDF_image.png')
+    
+    print(str(w)+'/'+str(t),'papers were successfully scraped.')
+    return txts
+
+def find_pdfs(curr_dir):
+    found=[]
+    for item in os.listdir(curr_dir):
+        newpath=curr_dir+'/'+item
+        if ''.join(item[-4:])=='.pdf': found.append(newpath)
+        elif os.path.isdir(newpath): found+=find_pdfs(newpath)
+    return found
+
+def load_bigtf():
+    bigtf={}
+    for line in open('bigtf.txt',encoding='utf-8').read().splitlines():
+        vals=line.split()
+        bigtf[vals[0]]=float(vals[1])
+    return bigtf
+
+def exp_bigtf(bigtf):
+    with open('bigtf.txt','w',encoding='utf-8') as file:
+        for x,y in bigtf.items():
+            file.write(x+' '+str(y)+'\n')
+    print('Term frequencies exported successfully.')
+
+def valid_word(word):
+    r=re.compile(r'^[^a-zA-Z]+$')
+    return (len(word)>2 and not stopword(word) and not r.match(word))
+
 
 def make_tf(papers):
     total=0
@@ -23,7 +66,7 @@ def make_tf(papers):
     counts={}
 
     for paper in papers:
-        for x in [y for y in tokenizer.decode(paper).tokens if not_stopword(y) and len(y)>2]:
+        for x in [y for y in tokenizer.decode(paper).tokens if valid_word(y)]:
             if x not in counts: counts[x]=1
             else: counts[x]+=1
             total+=1
@@ -32,16 +75,19 @@ def make_tf(papers):
         counts[x]/=total
     return counts
 
-def tf_keywords(text,acmtf):
+def tf_keywords(text,bigtf):
     papertf=make_tf([text])
-    return sorted([(papertf[x]/acmtf[x],x) for x in papertf.keys() if x in acmtf],reverse=True)[:k]
+    return sorted([(papertf[x]/bigtf[x],x) for x in papertf.keys() if x in bigtf],reverse=True)[:k]
 
 def get_keywords(text):
     keywords=set()
 
-    papers=make_txts()
-    acmtf=make_tf(papers)
-    keywords.update([x[1] for x in tf_keywords(text,acmtf)])
+    if os.path.exists('bigtf.txt'): bigtf=load_bigtf()
+    else:
+        papers=make_txts()
+        bigtf=make_tf(papers)
+        exp_bigtf(bigtf)
+    keywords.update([x[1] for x in tf_keywords(text,bigtf)])
 
     kw_model = KeyBERT()
     keywords.update([x[0] for x in kw_model.extract_keywords(text)])
@@ -66,7 +112,8 @@ if __name__=='__main__':
     import sys; args = sys.argv[1:]
     text=process_pdf(args[0])
     keywords=get_keywords(text)
-    defs=get_definitions(keywords)
+    print(keywords)
+    '''defs=get_definitions(keywords)
     for term,definition in defs.items():
         print(term+':',definition)
-        print()
+        print()'''
