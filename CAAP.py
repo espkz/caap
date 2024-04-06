@@ -8,7 +8,7 @@ import time
 import sys
 import re
 
-client = OpenAI(api_key=os.environ["OPENAI"])
+# client = OpenAI(api_key=os.environ["OPENAI"])
 
 global k
 k=5
