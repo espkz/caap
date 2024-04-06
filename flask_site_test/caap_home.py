@@ -10,10 +10,6 @@ def home():
 def about():
     return render_template('about.html')
 
-@app.route('/test')
-def test():
-    return render_template('test.html')
-
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     return render_template('upload.html')

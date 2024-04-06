@@ -40,7 +40,10 @@
     </div>
     <div class="buttons">
         <a href="/about"><button>About</button></a>
-        <a href="/test"><button>Try It Now</button></a>
     </div>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdfFile" accept=".pdf">
+        <button type="submit">Upload PDF</button>
+    </form>
 </body>
 </html>
