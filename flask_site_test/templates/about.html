@@ -10,6 +10,7 @@
             font-family: Copperplate;
             font-weight: 500;
             background: #fcfcfc;
+
         }
         .container {
             width: 80%;
@@ -26,11 +27,11 @@
         }
 
         .logo {
-            float: left;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            height: 50px;
-            width: 70px;
+          float: left;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          height: 50px;
+          width: 70px;
         }
 
         nav{
@@ -44,10 +45,9 @@
         }
 
         nav li{
-           display: inline-block;
+            display: inline-block;
             margin-left: 70px;
             padding-top: 23px;
-            
             position: relative;
         }
 
@@ -67,11 +67,9 @@
             display: block;
             height: 5px;
             background-color: #01afd1;
-
             position: absolute;
             top: 0;
             width: 0%;
-
             transition: all ease-in-out 250ms;
         }
 
@@ -79,32 +77,21 @@
             width: 100%;
         }
 
-
-        html {
-            box-sizing: border-box;
-        }
-
         *, *:before, *:after {
         box-sizing: inherit;
         }
 
         .column {
-        float: left;
-        width: 33.3%;
-        margin-bottom: 16px;
-        padding: 0 8px;
+          float: left;
+          width: 20%;
+          margin-bottom: 16px;
+          padding: 0 8px;
         }
 
         .card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        margin: 8px;
-        }
-
-        .about-section {
-        padding: 20px;
-        text-align: center;
-        background-color: #01afd1;
-        color: white;
+          box-shadow: 0 4px 8px 0 #f8e71c;
+          margin: 8px;
+          background-color: white;
         }
 
         .container {
@@ -112,29 +99,13 @@
         }
 
         .container::after, .row::after {
-        content: "";
-        clear: both;
-        display: table;
+          content: "";
+          clear: both;
+          display: table;
         }
 
         .title {
         color: grey;
-        }
-
-        .button {
-          border: none;
-          outline: 0;
-          display: inline-block;
-          padding: 8px;
-          color: white;
-          background-color: #000;
-          text-align: center;
-          cursor: pointer;
-          width: 100%;
-        }
-
-        .button:hover {
-        background-color: #555;
         }
 
         @media screen and (max-width: 650px) {
@@ -143,11 +114,18 @@
             display: block;
         }
         }
-        
+
+        .row{
+            width:100%;
+            height:100vh;
+            background-image: url(assets/background.png);
+            background-position: center;
+            background-size: cover;
+            position: relative;
+        }
     </style>
 </head>
 <header>
-  <header>
     <div class="container">
         <img src="{{url_for('static', filename='assets/logo.png')}}" alt="logo" class="logo"/>
             <nav>
@@ -157,13 +135,9 @@
                     <li><a href="/results">Upload Your Paper</a></li>
                 </ul>
             </nav>
-    </div>
-</header> 
+    </div> 
 </header>
 <body>
-    <div class="about-section">
-        <p>Meet the CAAP Team!</p>
-      </div>
       <div class="row">
         <div class="column">
           <div class="card">
@@ -171,7 +145,6 @@
             <div class="container">
               <h2>Will Kohn</h2>
               <p class="title">Computer Science + International Studies</p>
-              <p>Fun Fact:</p>
               <p>will.kohn@emory.edu</p>
             </div>
           </div>
@@ -183,7 +156,6 @@
             <div class="container">
               <h2>Sam Liu</h2>
               <p class="title">Business Administration + Computer Science</p>
-              <p>Fun Fact:</p>
               <p>sam.liu@emory.edu</p>
             </div>
           </div>
@@ -194,20 +166,18 @@
             <img src="{{url_for('static', filename='assets/person.png')}}" alt="Ja'Zmin" style="width:100%"/>
             <div class="container">
               <h2>Ja'Zmin McKeel</h2>
-              <p class="title">Dual Degree Computer Science         </p>
-              <p></p>
-              <p>Fun Fact:</p>
+              <p class="title">Dual Degree Computer Science</p>
               <p>jmckeel@emory.edu</p>
             </div>
           </div>
         </div>
+              
         <div class="column">
           <div class="card">
             <img src="{{url_for('static', filename='assets/person.png')}}" alt="Ellie" style="width:100%"/>
             <div class="container">
               <h2>Ellie Paek</h2>
               <p class="title">Computer Science + Mathmatics</p>
-              <p>Fun Fact:</p>
               <p>ellie.paek@emory.edu</p>
             </div>
           </div>
