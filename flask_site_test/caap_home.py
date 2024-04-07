@@ -18,7 +18,8 @@ def upload():
         if pdf_file:
             pdf_file.save('flask_site_test/uploads/' + pdf_file.filename)
             text = process_pdf('flask_site_test/uploads/' + pdf_file.filename)
-            results = get_keywords(text)
+            keywords = get_keywords(text)
+            results = get_definitions(keywords)
             return redirect(url_for('results', results=results))
 
 @app.route('/results')

@@ -8,7 +8,7 @@ import time
 import sys
 import re
 
-# client = OpenAI(api_key=os.environ["OPENAI"])
+client = OpenAI(api_key=os.environ["OPENAI"])
 
 global k
 k=5
@@ -103,8 +103,11 @@ def get_definitions(keywords):
     user_msg = 'Briefly define '
 
     for keyword in keywords:
-        defs[keyword]=client.chat.completions.create(model="gpt-3.5-turbo",messages=[{"role": "system", "content": system_msg},{"role": "user", "content": user_msg+keyword}])
-
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "system", "content": system_msg},{"role": "user", "content": user_msg+keyword}]
+        )
+        defs[keyword] = response.choices[0].message.content
     return defs
 
 
