@@ -14,3 +14,4 @@ just stuff that I'm going to put down so I don't forget -Ellie
 - [x] Also make sure redirect is okay
 - [ ] Backend program is localized, find a way to make it accessible through a general machine 
 - [ ] Page for throwing any errors
+- [ ] Redirecting to upload paper is breaking, maybe redesign?
