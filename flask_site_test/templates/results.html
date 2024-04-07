@@ -123,6 +123,15 @@
     <div class="title_page">
         <h1>Upload Your Paper</h1>
     </div>
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'inline';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+    </script>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="pdfFile" accept=".pdf">
         <button type="submit">Upload PDF</button>
