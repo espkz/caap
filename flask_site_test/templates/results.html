@@ -6,19 +6,91 @@
     <title>Capture Assistant in Academic Papers</title>
     <style>
         body {
+            margin: 0;
             font-family: Copperplate;
+            font-weight: 500;
+            background: #fcfcfc;
             text-align: center;
-            background-color: gray;
+            align-items: center;
         }
-        .header {
-            background-color: cadetblue;
+        .title_page {
+            background-color: #01afd1;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
         }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        header {
+            background: #ffffff;
+        }
+        header::after{
+          content: '';
+          display: table;
+          clear: both;  
+        }
+
+        .logo {
+            float: left;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            height: 50px;
+            width: 70px;
+        }
+
+        nav{
+            float: right;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        nav li{
+           display: inline-block;
+            margin-left: 70px;
+            padding-top: 23px;
+            
+            position: relative;
+        }
+
+        nav a {
+            color: #444;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        nav a::before {
+            content:'';
+            display: block;
+            height: 5px;
+            background-color: #01afd1;
+
+            position: absolute;
+            top: 0;
+            width: 0%;
+
+            transition: all ease-in-out 250ms;
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
         h1 {
             margin: 0;
             font-size: 36px;
+            text-align: center;
         }
         .buttons {
             display: flex;
@@ -34,13 +106,28 @@
         }
     </style>
 </head>
+<header>
+    <header>
+      <div class="container">
+          <img src="assets/logo.png" alt="logo" class="logo">
+              <nav>
+                  <ul>
+                      <li><a href="home.html">Home</a></li>
+                      <li><a href="about.html">About US</a></li>
+                      <li><a href="results.html">Upload Your Paper</a></li>
+                  </ul>
+              </nav>
+      </div>
+  </header> 
 <body>
-    <div class="header">
-        <h1>RESULTS</h1>
+    <div class="title_page">
+        <h1>Upload Your Paper</h1>
     </div>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdfFile" accept=".pdf">
+        <button type="submit">Upload PDF</button>
+    </form>
+
     <p>{{ results }}</p>
-    <div class="buttons">
-        <a href="/"><button>Home</button></a>
-    </div>
 </body>
 </html>
