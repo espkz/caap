@@ -1,46 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Capture Assistant in Academic Papers</title>
-    <style>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>About - Capture Assistant in Academic Papers</title>
+            <style>
         body {
-            font-family: Copperplate;
-            text-align: center;
-            background-color: gray;
-        }
-        .header {
-            background-color: cadetblue;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        h1 {
             margin: 0;
-            font-size: 36px;
+            font-family: Copperplate;
+            font-weight: 500;
+            background: #fcfcfc;
         }
-        .buttons {
-            display: flex;
-            justify-content: center;
+        .container {
+            width: 80%;
+            margin: 0 auto;
         }
-        .buttons a {
-            margin: 0 10px;
+
+        header {
+            background: #ffffff;
         }
-        .buttons button {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
+        header::after{
+          content: '';
+          display: table;
+          clear: both;  
         }
+
+        .logo {
+            float: left;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            height: 50px;
+            width: 70px;
+        }
+
+        nav{
+            float: right;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        nav li{
+           display: inline-block;
+            margin-left: 70px;
+            padding-top: 23px;
+            
+            position: relative;
+        }
+
+        nav a {
+            color: #444;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        nav a::before {
+            content:'';
+            display: block;
+            height: 5px;
+            background-color: #01afd1;
+
+            position: absolute;
+            top: 0;
+            width: 0%;
+
+            transition: all ease-in-out 250ms;
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+        box-sizing: inherit;
+        }
+
+        .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+        }
+
+        .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 8px;
+        }
+
+        .about-section {
+        padding: 20px;
+        text-align: center;
+        background-color: #01afd1;
+        color: white;
+        }
+
+        .container {
+        padding: 0 16px;
+        }
+
+        .container::after, .row::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+        .title {
+        color: grey;
+        }
+
+        .button {
+          border: none;
+          outline: 0;
+          display: inline-block;
+          padding: 8px;
+          color: white;
+          background-color: #000;
+          text-align: center;
+          cursor: pointer;
+          width: 100%;
+        }
+
+        .button:hover {
+        background-color: #555;
+        }
+
+        @media screen and (max-width: 650px) {
+        .column {
+            width: 100%;
+            display: block;
+        }
+        }
+        
     </style>
 </head>
-<body>
-    <div class="header">
-        <h1>About</h1>
+<header>
+  <header>
+    <div class="container">
+        <img src="assets/logo.png" alt="logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about.html">About US</a></li>
+                    <li><a href="test.html">Upload Your Paper</a></li>
+                </ul>
+            </nav>
     </div>
-    <p>blah blah blah stuff things yay</p>
-    <div class="buttons">
-        <a href="/"><button>Home</button></a>
+</header> 
+</header>
+<body>
+    <div class="about-section">
+        <p>Meet the CAAP Team!</p>
+      </div>
+      <div class="row">
+        <div class="column">
+          <div class="card">
+            <img src="assets/person.png" alt="Will" style="width:100%">
+            <div class="container">
+              <h2>Will Kohn</h2>
+              <p class="title">Computer Science + International Studies</p>
+              <p>Fun Fact:</p>
+              <p>will.kohn@emory.edu</p>
+            </div>
+          </div>
+        </div>
+      
+        <div class="column">
+          <div class="card">
+            <img src="assets/person.png" alt="Sam" style="width:100%">
+            <div class="container">
+              <h2>Sam Liu</h2>
+              <p class="title">Business Administration + Computer Science</p>
+              <p>Fun Fact:</p>
+              <p>sam.liu@emory.edu</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="column">
+          <div class="card">
+            <img src="assets/person.png" alt="Ja'Zmin" style="width:100%">
+            <div class="container">
+              <h2>Ja'Zmin McKeel</h2>
+              <p class="title">Dual Degree Computer Science         </p>
+              <p></p>
+              <p>Fun Fact:</p>
+              <p>jmckeel@emory.edu</p>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="card">
+            <img src="assets/person.png" alt="Ellie" style="width:100%">
+            <div class="container">
+              <h2>Ellie Paek</h2>
+              <p class="title">Computer Science + Mathmatics</p>
+              <p>Fun Fact:</p>
+              <p>ellie.paek@emory.edu</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </body>
 </html>
