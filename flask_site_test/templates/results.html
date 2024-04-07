@@ -109,12 +109,12 @@
 <header>
     <header>
       <div class="container">
-          <img src="assets/logo.png" alt="logo" class="logo">
+        <img src="{{url_for('static', filename='assets/logo.png')}}" alt="logo" class="logo"/>
               <nav>
                   <ul>
-                      <li><a href="home.html">Home</a></li>
-                      <li><a href="about.html">About US</a></li>
-                      <li><a href="results.html">Upload Your Paper</a></li>
+                      <li><a href="/">Home</a></li>
+                      <li><a href="/about">About US</a></li>
+                      <li><a href="/results">Upload Your Paper</a></li>
                   </ul>
               </nav>
       </div>
