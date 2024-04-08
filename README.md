@@ -18,5 +18,6 @@ just stuff that I'm going to put down so I don't forget -Ellie
 - [x] Actually getting the PDF to the tool and running the program — **works, just not on pdfs with images** 
 - [x] Also make sure redirect is okay
 - [x] Backend program is localized, find a way to make it accessible through a general machine (not the best solution but well)
+- [x] Reformat results, more coherent format
 - [ ] Page for throwing any errors (PDF didn't process, empty PDF uploading)
-- [x] Reformat results, more coherent format+maybe presenting the PDF that was uploaded
+- [ ] Reformat results + presenting the PDF that was uploaded
