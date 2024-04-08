@@ -14,7 +14,12 @@ import pytesseract
 import os
 from datetime import datetime 
 
-pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+# for specific path directing
+# pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+
+# localized path for Git; if this doesn't work on Windows please install tesseract and use the specific path directing above
+# Make sure to comment this out if using the other one!!
+pytesseract.pytesseract.tesseract_cmd = 'dependencies/tesseract/5.3.4_1/bin/tesseract'
 
 # Create a function to extract text
 
@@ -56,7 +61,14 @@ def crop_image(element, pageObj):
 
 # Create a function to convert the PDF to images
 def convert_to_images(input_file,):
-	images = convert_from_path(input_file,poppler_path='C:\\Users\\willk\\Downloads\\Release-24.02.0-0\\poppler-24.02.0\\Library\\bin')
+	# specific path - replace this with your path to poppler and comment the other path out if using a specific path
+	# path = 'C:\\Users\\willk\\Downloads\\Release-24.02.0-0\\poppler-24.02.0\\Library\\bin'
+	path = 'dependencies/poppler/24.04.0/bin'
+	try:
+		images = convert_from_path(input_file)
+	except:
+		print("Poppler not found on machine, using dependencies")
+		images = convert_from_path(input_file, poppler_path=path)
 	image = images[0]
 	output_file = "PDF_image.png"
 	image.save(output_file, "PNG")

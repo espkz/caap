@@ -118,7 +118,8 @@
                   </ul>
               </nav>
       </div>
-  </header> 
+  </header>
+</header>
 <body>
     <div class="title_page">
         <h1>Upload Your Paper</h1>
@@ -137,6 +138,14 @@
         <button type="submit">Upload PDF</button>
     </form>
 
-    <p>{{ results }}</p>
+    {% if results is none %}
+        <p>No keywords yet. Try uploading!</p>
+    {% else %}
+        <ul>
+            {% for word, definition in results.items() %}
+                <li><strong>{{ word }}</strong>: {{ definition }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>

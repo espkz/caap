@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from CAAP import *
+import ast
 
 app = Flask(__name__, template_folder='templates')
 
@@ -25,6 +26,8 @@ def upload():
 @app.route('/results')
 def results():
     results = request.args.get('results')
+    if type(results) is str:
+        results = ast.literal_eval(results)
     return render_template('results.html', results=results)
 
 if __name__ == '__main__':

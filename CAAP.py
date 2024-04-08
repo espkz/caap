@@ -113,7 +113,7 @@ def get_definitions(keywords):
 
 if __name__=='__main__':
     import sys; args = sys.argv[1:]
-    text=process_pdf(args[0])
+    text=process_pdf('test/b.pdf')
     keywords=get_keywords(text)
     print(keywords)
     '''defs=get_definitions(keywords)
