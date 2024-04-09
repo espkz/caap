@@ -21,4 +21,4 @@ just stuff that I'm going to put down so I don't forget -Ellie
 - [x] Reformat results, more coherent format
 - [x] Prevent empty PDF uploading
 - [x] Reformat results + presenting the PDF that was uploaded
-- [] Page for throwing any errors (PDF didn't process)
+- [ ] Page for throwing any errors (PDF didn't process)
