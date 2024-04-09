@@ -17,18 +17,21 @@ def upload():
     if request.method == 'POST':
         pdf_file = request.files['pdfFile']
         if pdf_file:
-            pdf_file.save('flask_site_test/uploads/' + pdf_file.filename)
-            text = process_pdf('flask_site_test/uploads/' + pdf_file.filename)
+            pdf_file.save('flask_site_test/static/uploads/' + pdf_file.filename)
+            text = process_pdf('flask_site_test/static/uploads/' + pdf_file.filename)
             keywords = get_keywords(text)
             results = get_definitions(keywords)
-            return redirect(url_for('results', results=results))
+            pdf_url = url_for('static', filename='uploads/' + pdf_file.filename)
+            return redirect(url_for('results', results=results, pdf_url = pdf_url))
 
 @app.route('/results')
 def results():
     results = request.args.get('results')
     if type(results) is str:
         results = ast.literal_eval(results)
-    return render_template('results.html', results=results)
+
+    pdf_url = request.args.get('pdf_url')
+    return render_template('results.html', results=results, pdf_url=pdf_url)
 
 if __name__ == '__main__':
     app.run(debug=False)

@@ -104,6 +104,17 @@
             font-size: 18px;
             cursor: pointer;
         }
+        .container {
+            display: flex;
+        }
+        .column {
+            flex: 50%;
+            padding: 10px;
+        }
+        .pdf-viewer {
+            border: 1px solid #ccc;
+            height: 1000px; /* Adjust height as needed */
+        }
     </style>
 </head>
 <header>
@@ -133,19 +144,29 @@
             document.getElementById('loading').style.display = 'none';
         }
     </script>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="pdfFile" accept=".pdf">
-        <button type="submit">Upload PDF</button>
-    </form>
-
-    {% if results is none %}
-        <p>No keywords yet. Try uploading!</p>
-    {% else %}
-        <ul>
-            {% for word, definition in results.items() %}
-                <li><strong>{{ word }}</strong>: {{ definition }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="container">
+        <div class="column">
+            <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <input type="file" name="pdfFile" id="pdfFileInput" accept=".pdf" onchange="showLoading(); this.form.submit()">
+                <div id="loading" style="display: none;">Loading...</div>
+            </form>
+            {% if pdf_url %}
+                <div class="pdf-viewer">
+                    <iframe src="{{ pdf_url }}" width="100%" height="800px"></iframe>
+                </div>
+            {% endif %}
+        </div>
+        <div class="column">
+            {% if results is none %}
+                <p>No keywords yet. Try uploading!</p>
+            {% else %}
+                <ul>
+                    {% for word, definition in results.items() %}
+                        <li><strong>{{ word }}</strong>: {{ definition }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
