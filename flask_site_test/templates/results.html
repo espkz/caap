@@ -112,7 +112,7 @@
         }
         .pdf-viewer {
             border: 1px solid #ccc;
-            height: 1000px; /* Adjust height as needed */
+            height: 800px;
         }
         .switch {
           position: relative;
@@ -171,6 +171,7 @@
           transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <header>
     <header>
@@ -213,23 +214,44 @@
         </div>
         <div class="column">
             <div class="switch">
-                  <input id="switch-y" name="tripple" type="radio" value="Y" class="switch-input" />
+                  <input id="switch-y" name="tripple" type="radio" value="0" class="switch-input" />
                   <label for="switch-y" class="switch-label switch-label-y">Beginner</label>
-                  <input id="switch-i" name="tripple" type="radio" value="I" class="switch-input" checked />
+                  <input id="switch-i" name="tripple" type="radio" value="1" class="switch-input" checked />
                   <label for="switch-i" class="switch-label switch-label-i">Proficient</label>
-                  <input id="switch-n" name="tripple" type="radio" value="N" class="switch-input" />
+                  <input id="switch-n" name="tripple" type="radio" value="2" class="switch-input" />
                   <label for="switch-n" class="switch-label switch-label-n">Expert</label>
                   <span class="switch-selector"></span>
             </div>
-            {% if results is none %}
-                <p>No keywords yet. Try uploading!</p>
-            {% else %}
-                <ul>
-                    {% for word, definition in results.items() %}
-                        <li><strong>{{ word }}</strong>: {{ definition }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            <input type="hidden" id="keywords" name="keywords" value="{{ keywords }}">
+            <script>
+                $(document).ready(function() {
+                    var tier = {{ tier }};
+                    $('input[name="tripple"][value="' + tier + '"]').prop('checked', true);
+                    $('.switch-input').on('change', function() {
+                       var tier = $(this).val();
+                       var keywords = $('#keywords').val();
+                       var switchContainer = $(this).closest('.switch');
+                       if (keywords != "None") {
+                           switchContainer.after('<p id="updating">Updating...</p>');
+                           $.ajax({
+                               type: 'POST',
+                               url: '/update_definitions',
+                               data: { tier: tier, keywords: keywords },
+                               success: function(response) {
+                                   $('#updating').remove();
+                                   $('#definitions').html(response);
+                               },
+                               error: function(error) {
+                                    console.error('Error updating definitions:', error);
+                               }
+                           });
+                       }
+                    });
+                });
+            </script>
+            <div id = "definitions">
+                {% include 'definitions.html' %}
+            </div>
         </div>
     </div>
 </body>

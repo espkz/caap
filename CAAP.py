@@ -96,14 +96,14 @@ def get_keywords(text):
 
     return keywords
 
-def get_definitions(keywords):
+def get_definitions(keywords, lvl):
     defs={}
 
     # Define the system message
     system_msg = 'You are a great dictionary fluent in technical jargon'
-    if lvl=='Novice': system_msg+=' for novices in academia.'
-    elif lvl=='Proficient': system_msg+=' for people proficient in academia.'
-    elif lvl=='Expert': system_msg+=' for experts in academia.'
+    if lvl==0: system_msg+=' for novices in academia.'
+    elif lvl==1: system_msg+=' for people proficient in academia.'
+    elif lvl==2: system_msg+=' for experts in academia.'
     user_msg = 'Briefly define '
 
     for keyword in keywords:

@@ -1,0 +1,9 @@
+{% if results is none %}
+    <p>No keywords yet. Try uploading!</p>
+{% else %}
+    <ul>
+        {% for word, definition in results.items() %}
+            <li><strong>{{ word }}</strong>: {{ definition }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

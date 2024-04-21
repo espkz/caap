@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from CAAP import *
 import ast
 
 app = Flask(__name__, template_folder='templates')
+app.secret_key = 'caap_cs_329'
 
 @app.route('/')
 def home():
@@ -12,6 +13,21 @@ def home():
 def about():
     return render_template('about.html')
 
+
+@app.route('/update_definitions', methods=['POST'])
+def update_definitions():
+    keywords = request.form['keywords']
+    if type(keywords) is str:
+        keywords = keywords.replace('{', '[')
+        keywords = keywords.replace('}', ']')
+        keywords = ast.literal_eval(keywords)
+    tier = int(request.form['tier'])
+    if keywords is not None:
+        updated_definitions = get_definitions(keywords, tier)
+    else:
+        updated_definition = ""
+    return render_template('definitions.html', results = updated_definitions, definitions=updated_definitions)
+
 @app.route('/upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
@@ -20,18 +36,25 @@ def upload():
             pdf_file.save('flask_site_test/static/uploads/' + pdf_file.filename)
             text = process_pdf('flask_site_test/static/uploads/' + pdf_file.filename)
             keywords = get_keywords(text)
-            results = get_definitions(keywords)
             pdf_url = url_for('static', filename='uploads/' + pdf_file.filename)
-            return redirect(url_for('results', results=results, pdf_url = pdf_url))
+            return redirect(url_for('results', keywords = keywords, pdf_url = pdf_url))
 
 @app.route('/results')
 def results():
-    results = request.args.get('results')
-    if type(results) is str:
-        results = ast.literal_eval(results)
+    tier = session.get('tier', 1)
+    keywords = request.args.get('keywords')
+    if type(keywords) is str:
+        keywords = keywords.replace('{', '[')
+        keywords = keywords.replace('}', ']')
+        keywords = ast.literal_eval(keywords)
+    results = None
+    if keywords:
+        results = get_definitions(keywords, tier)
+        if type(results) is str:
+            results = ast.literal_eval(results)
 
     pdf_url = request.args.get('pdf_url')
-    return render_template('results.html', results=results, pdf_url=pdf_url)
+    return render_template('results.html', keywords = keywords, results=results, pdf_url=pdf_url, tier = tier)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
