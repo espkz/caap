@@ -246,6 +246,17 @@
                                }
                            });
                        }
+                       $.ajax({
+                           type: 'POST',
+                           url: '/set_tier',
+                           data: { tier: tier },
+                           success: function(response) {
+                               console.log('Tier updated successfully');
+                           },
+                           error: function(error) {
+                               console.error('Error updating tier:', error);
+                           }
+                       });
                     });
                 });
             </script>

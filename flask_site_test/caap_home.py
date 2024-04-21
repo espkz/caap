@@ -13,6 +13,11 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route('/set_tier', methods=['POST'])
+def set_tier():
+    tier = request.form.get('tier', type=int)
+    session['tier'] = tier
+    return 'SUCCESS'
 
 @app.route('/update_definitions', methods=['POST'])
 def update_definitions():
@@ -49,6 +54,7 @@ def results():
         keywords = ast.literal_eval(keywords)
     results = None
     if keywords:
+        print("Tier: " + str(tier))
         results = get_definitions(keywords, tier)
         if type(results) is str:
             results = ast.literal_eval(results)
