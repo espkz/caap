@@ -199,6 +199,13 @@
         function hideLoading() {
             document.getElementById('loading').style.display = 'none';
         }
+        function disableCursor(){
+            document.body.style.cursor = 'none';
+        }
+
+        function restoreCursor(){
+            document.body.style.cursor = 'default';
+        }
     </script>
     <div class="container">
         <div class="column">
@@ -228,6 +235,7 @@
                     var tier = {{ tier }};
                     $('input[name="tripple"][value="' + tier + '"]').prop('checked', true);
                     $('.switch-input').on('change', function() {
+                       disableCursor();
                        var tier = $(this).val();
                        var keywords = $('#keywords').val();
                        var switchContainer = $(this).closest('.switch');
@@ -240,9 +248,11 @@
                                success: function(response) {
                                    $('#updating').remove();
                                    $('#definitions').html(response);
+                                   restoreCursor();
                                },
                                error: function(error) {
                                     console.error('Error updating definitions:', error);
+                                    restoreCursor();
                                }
                            });
                        }
