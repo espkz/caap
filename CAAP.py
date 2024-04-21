@@ -12,6 +12,8 @@ client = OpenAI(api_key=os.environ["OPENAI"])
 
 global k
 k=5
+global lvl
+lvl='Novice'
 
 stopwords={line.strip().lower() for line in open('stopwords.txt')}
 stopword=lambda w:w.lower() in stopwords or w in punctuation
@@ -98,8 +100,10 @@ def get_definitions(keywords):
     defs={}
 
     # Define the system message
-    system_msg = 'You are a great dictionary fluent in technical jargon.'
-
+    system_msg = 'You are a great dictionary fluent in technical jargon'
+    if lvl=='Novice': system_msg+=' for novices in academia.'
+    elif lvl=='Proficient': system_msg+=' for people proficient in academia.'
+    elif lvl=='Expert': system_msg+=' for experts in academia.'
     user_msg = 'Briefly define '
 
     for keyword in keywords:
