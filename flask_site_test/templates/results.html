@@ -252,8 +252,8 @@
                                error: function(error) {
                                     console.error('Error updating definitions:', error);
                                }
-                               restoreCursor();
                            });
+                           restoreCursor();
                        }
                        $.ajax({
                            type: 'POST',
