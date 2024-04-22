@@ -252,6 +252,7 @@
                                error: function(error) {
                                     console.error('Error updating definitions:', error);
                                }
+                               restoreCursor();
                            });
                        }
                        $.ajax({
@@ -260,11 +261,9 @@
                            data: { tier: tier },
                            success: function(response) {
                                console.log('Tier updated successfully');
-                               restoreCursor();
                            },
                            error: function(error) {
                                console.error('Error updating tier:', error);
-                               restoreCursor();
                            }
                        });
                     });
