@@ -248,11 +248,9 @@
                                success: function(response) {
                                    $('#updating').remove();
                                    $('#definitions').html(response);
-                                   restoreCursor();
                                },
                                error: function(error) {
                                     console.error('Error updating definitions:', error);
-                                    restoreCursor();
                                }
                            });
                        }
@@ -262,9 +260,11 @@
                            data: { tier: tier },
                            success: function(response) {
                                console.log('Tier updated successfully');
+                               restoreCursor();
                            },
                            error: function(error) {
                                console.error('Error updating tier:', error);
+                               restoreCursor();
                            }
                        });
                     });
