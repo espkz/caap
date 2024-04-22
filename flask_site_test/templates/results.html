@@ -248,11 +248,12 @@
                                success: function(response) {
                                    $('#updating').remove();
                                    $('#definitions').html(response);
+                                   restoreCursor();
                                },
                                error: function(error) {
                                     console.error('Error updating definitions:', error);
+                                    restoreCursor();
                                }
-                               restoreCursor();
                            });
                        }
                        $.ajax({
