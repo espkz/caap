@@ -15,7 +15,7 @@ import os
 from datetime import datetime 
 
 # replace this with your local tesseract path
-pytesseract.pytesseract.tesseract_cmd = 'dependencies/tesseract/5.3.4_1/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 # Create a function to extract text
 
@@ -58,7 +58,7 @@ def crop_image(element, pageObj):
 # Create a function to convert the PDF to images
 def convert_to_images(input_file,):
 	# replace this with your path
-	path = 'dependencies/poppler/24.04.0/bin'
+	path = r'./dependencies/poppler/poppler-24.02.0/Library/bin'
 	images = convert_from_path(input_file, poppler_path=path)
 	image = images[0]
 	output_file = "PDF_image.png"

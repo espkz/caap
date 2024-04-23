@@ -7,3 +7,4 @@ pdfminer.six
 Pillow
 pdf2image
 flask
+elit_tokenizer

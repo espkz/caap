@@ -22,13 +22,14 @@ def set_tier():
 @app.route('/update_definitions', methods=['POST'])
 def update_definitions():
     keywords = request.form['keywords']
+    text = request.form['text']
     if type(keywords) is str:
         keywords = keywords.replace('{', '[')
         keywords = keywords.replace('}', ']')
         keywords = ast.literal_eval(keywords)
     tier = int(request.form['tier'])
     if keywords is not None:
-        updated_definitions = get_definitions(keywords, tier)
+        updated_definitions = get_definitions(keywords, tier, text)
     else:
         updated_definition = ""
     return render_template('definitions.html', results = updated_definitions, definitions=updated_definitions)
@@ -42,12 +43,13 @@ def upload():
             text = process_pdf('flask_site_test/static/uploads/' + pdf_file.filename)
             keywords = get_keywords(text)
             pdf_url = url_for('static', filename='uploads/' + pdf_file.filename)
-            return redirect(url_for('results', keywords = keywords, pdf_url = pdf_url))
+            return redirect(url_for('results', keywords = keywords, pdf_url = pdf_url,text = text))
 
 @app.route('/results')
 def results():
     tier = session.get('tier', 1)
     keywords = request.args.get('keywords')
+    text = request.args.get('text')
     if type(keywords) is str:
         keywords = keywords.replace('{', '[')
         keywords = keywords.replace('}', ']')
@@ -55,12 +57,12 @@ def results():
     results = None
     if keywords:
         print("Tier: " + str(tier))
-        results = get_definitions(keywords, tier)
+        results = get_definitions(keywords, tier, text)
         if type(results) is str:
             results = ast.literal_eval(results)
 
     pdf_url = request.args.get('pdf_url')
-    return render_template('results.html', keywords = keywords, results=results, pdf_url=pdf_url, tier = tier)
+    return render_template('results.html', keywords = keywords, results=results, pdf_url=pdf_url, tier = tier, text = text)
 
 if __name__ == '__main__':
     app.run(debug=True)

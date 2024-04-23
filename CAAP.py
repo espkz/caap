@@ -4,8 +4,6 @@ from string import punctuation
 from process_pdf import *
 from openai import OpenAI
 import os
-import time
-import sys
 import re
 
 client = OpenAI(api_key=os.environ["OPENAI"])
@@ -13,7 +11,8 @@ client = OpenAI(api_key=os.environ["OPENAI"])
 global k
 k=5
 global lvl
-lvl='Novice'
+lvl=0
+global new_paper
 
 stopwords={line.strip().lower() for line in open('stopwords.txt')}
 stopword=lambda w:w.lower() in stopwords or w in punctuation
@@ -58,8 +57,8 @@ def exp_bigtf(bigtf):
     print('Term frequencies exported successfully.')
 
 def valid_word(word):
-    r=re.compile(r'^[^a-zA-Z]+$')
-    return (len(word)>2 and not stopword(word) and not r.match(word))
+    r=re.compile(r'^.*[^a-zA-Z]+.*$')
+    return len(word)>2 and not stopword(word) and not r.match(word)
 
 
 def make_tf(papers):
@@ -68,7 +67,7 @@ def make_tf(papers):
     counts={}
 
     for paper in papers:
-        for x in [y for y in tokenizer.decode(paper).tokens if valid_word(y)]:
+        for x in [y.lower() for y in tokenizer.decode(paper).tokens if valid_word(y)]:
             if x not in counts: counts[x]=1
             else: counts[x]+=1
             total+=1
@@ -94,22 +93,27 @@ def get_keywords(text):
     kw_model = KeyBERT()
     keywords.update([x[0] for x in kw_model.extract_keywords(text)])
 
+    to_remove=[]
+    for x in keywords:
+        for y in keywords:
+            if x==y: continue
+            if x in y: to_remove.append(y)
+
     return keywords
 
-def get_definitions(keywords, lvl):
+def get_definitions(keywords, lvl, text):
     defs={}
 
     # Define the system message
-    system_msg = 'You are a great dictionary fluent in technical jargon'
-    if lvl==0: system_msg+=' for novices in academia.'
-    elif lvl==1: system_msg+=' for people proficient in academia.'
-    elif lvl==2: system_msg+=' for experts in academia.'
-    user_msg = 'Briefly define '
+    system_msg = 'You are a great dictionary fluent in technical jargon from academic papers. Use this paper to help define the terms: '+text
+    if lvl==0: st_msg='At a novice, beginner level please define '
+    elif lvl==1: st_msg='At an intermediate, proficient level please define '
+    elif lvl==2: st_msg='At an expert, intricate level please define '
 
     for keyword in keywords:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": system_msg},{"role": "user", "content": user_msg+keyword}]
+            messages=[{"role": "system", "content": system_msg},{"role": "user", "content": st_msg+keyword}]
         )
         defs[keyword] = response.choices[0].message.content
     return defs

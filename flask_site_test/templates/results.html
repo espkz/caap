@@ -244,7 +244,7 @@
                            $.ajax({
                                type: 'POST',
                                url: '/update_definitions',
-                               data: { tier: tier, keywords: keywords },
+                               data: { tier: tier, keywords: keywords, text: text },
                                success: function(response) {
                                    $('#updating').remove();
                                    $('#definitions').html(response);
