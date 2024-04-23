@@ -199,13 +199,6 @@
         function hideLoading() {
             document.getElementById('loading').style.display = 'none';
         }
-        function disableCursor(){
-            document.body.style.cursor = 'none';
-        }
-
-        function restoreCursor(){
-            document.body.style.cursor = 'default';
-        }
     </script>
     <div class="container">
         <div class="column">
@@ -240,7 +233,6 @@
                        var switchContainer = $(this).closest('.switch');
                        if (keywords != "None") {
                            switchContainer.after('<p id="updating">Updating...</p>');
-                           disableCursor()
                            $.ajax({
                                type: 'POST',
                                url: '/update_definitions',
@@ -253,7 +245,6 @@
                                     console.error('Error updating definitions:', error);
                                }
                            });
-                           restoreCursor();
                        }
                        $.ajax({
                            type: 'POST',
