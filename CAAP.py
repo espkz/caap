@@ -98,6 +98,7 @@ def get_keywords(text):
         for y in keywords:
             if x==y: continue
             if x in y: to_remove.append(y)
+    for x in to_remove: keywords.remove(x)
 
     return keywords
 
@@ -105,7 +106,7 @@ def get_definitions(keywords, lvl, text):
     defs={}
 
     # Define the system message
-    system_msg = 'You are a great dictionary fluent in technical jargon from academic papers. Use this paper to help define the terms: '+text
+    system_msg = 'You are a great dictionary fluent in technical jargon from academic papers. Use this paper   to help define the terms: '+text
     if lvl==0: st_msg='At a novice, beginner level please define '
     elif lvl==1: st_msg='At an intermediate, proficient level please define '
     elif lvl==2: st_msg='At an expert, intricate level please define '
