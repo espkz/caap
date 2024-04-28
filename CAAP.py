@@ -5,6 +5,7 @@ from process_pdf import *
 from openai import OpenAI
 import os
 import re
+import tiktoken
 
 client = OpenAI(api_key=os.environ["OPENAI"])
 
@@ -16,6 +17,17 @@ global new_paper
 
 stopwords={line.strip().lower() for line in open('stopwords.txt')}
 stopword=lambda w:w.lower() in stopwords or w in punctuation
+
+def count_tokens(text, model="gpt-3.5-turbo"):
+    """
+    Count tokens of text, for possible truncating
+    :param text: text
+    :return:
+    """
+    encoding = tiktoken.encoding_for_model(model)
+    num_tokens = len(encoding.encode(text))
+    return num_tokens
+
 
 def make_txts():
     txts=[]
@@ -98,7 +110,9 @@ def get_keywords(text):
         for y in keywords:
             if x==y: continue
             if x in y: to_remove.append(y)
-    for x in to_remove: keywords.remove(x)
+    for x in to_remove:
+        if x in keywords:
+            keywords.remove(x)
 
     return keywords
 
@@ -112,6 +126,17 @@ def get_definitions(keywords, lvl, text):
     elif lvl==2: st_msg='At an expert, intricate level please define '
 
     for keyword in keywords:
+        tokens = count_tokens(system_msg+st_msg+keyword)
+        if (tokens > 16385):
+            print("Message larger than 16385 tokens, truncating")
+            list_st_msg = system_msg.split()
+            while (tokens > 16385):
+                # print("Total token count: " + str(instructions_count+article_count))
+                # print("Article token count: " + str(article_count))
+                list_st_msg = list_st_msg[:-100]
+                system_msg = " ".join(list_st_msg)
+                tokens = count_tokens(system_msg+st_msg+keyword)
+
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "system", "content": system_msg},{"role": "user", "content": st_msg+keyword}]
