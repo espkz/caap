@@ -21,9 +21,9 @@ just stuff that I'm going to put down so I don't forget -Ellie
 - [x] Reformat results, more coherent format
 - [x] Prevent empty PDF uploading
 - [x] Reformat results + presenting the PDF that was uploaded
+- [x] "Upload your paper" isn't consistent with the others
+- [x] Level of difficulty?
 - [ ] Page for throwing any errors (PDF didn't process)
-- [ ] "Upload your paper" isn't consistent with the others
-- [ ] Level of difficulty?
 
 ## Current Limitations
 - Complexity — takes around 10-15 seconds to process
